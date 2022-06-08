@@ -1,6 +1,5 @@
 # 생성자 대신 정적 팩터리 메서드를 고려하라
 
----
 일반적으로 클래스의 인스턴스를 얻는 public 생성자 방식 이외 ``정적 팩터리 메서드(static factory method)`` 방식이 있다.
 
 ```java
@@ -10,7 +9,6 @@ public static Boolean valueOf(boolean b) {
 ```
 ## 정적 팩터리 메서드의 장점
 
----
 ### 1. 이름을 가질 수 있다
 
 > - 생성자 : BigInteger(int, int, Random)
@@ -62,7 +60,6 @@ List<String> emptyList = Collections.emptyList();
 
 ## 정적 팩터리 메서드의 단점
 
----
 ### 1. 정적 팩터리 메서드만 제공하면 하위 클래스를 만들 수 없다. (상속시 public/protected 생성자가 필요)
 
 컬렉션 프레임워크의 유틸리티 구현 클래스들은 상속할 수 없다.
