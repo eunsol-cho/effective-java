@@ -151,6 +151,10 @@ private Object readResolve() {
 - serializable 인터페이스 구현
 - trasient 사용으로 직렬화 하지 않을 필드 선언
 - serialVersionUID?
+  - Serializable 구현 클래스에 JVM이 자동으로 선언해준다. (명시적으로 선언 가능)
+  - 클래스가 변경되면, serialVersionUID가 변경됨
+  - serialVersionUID변경되면, 이전버전에서 직렬화된 데이터를 역직렬화 할 수 없다.
+    - 다만, 임의로 이를 동일하게 해서 클래스가 변경되도 역질렬화를 진행 할 수 있다.
 
 <details>
 <summary> [code] serializable </summary>

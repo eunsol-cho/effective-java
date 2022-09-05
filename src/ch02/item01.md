@@ -58,6 +58,31 @@ List<String> emptyList = Collections.emptyList();
 - Dependency Injection : 강력한 서비스 제공자 
 - 자바5 이후, Service Loader라는 범용 서비스 제공자 프레임 워크 제공
 
+```java
+public class HelloServiceFactory {
+
+    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        ServiceLoader<HelloService> loader = ServiceLoader.load(HelloService.class);
+        Optional<HelloService> helloServiceOptional = loader.findFirst();
+        helloServiceOptional.ifPresent(h -> {
+            System.out.println(h.hello()); // 사용시점에 클래스 존재 하지 않음
+        });
+		/* 구현체를 가지는 서비스를 의존으로 가지고잇음 - like 우린 어떤 DB를 사용할지 모르지만, JDBC에 대한 의존가지고만 특정 DB에 종속되지 않는 어플리케이션을 만들수 있음
+         <dependency>
+            <groupId>me.whiteship.hello</groupId>
+            <artifactId>chinese-hello-service</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+         </dependency>
+         * */
+
+		// 이거랑 다른점은?
+        HelloService helloService = new ChineseHelloService(); // 의존성이 생김!
+        System.out.println(helloService.hello());
+    }
+
+}
+```
+
 ## 정적 팩터리 메서드의 단점
 
 ### 1. 정적 팩터리 메서드만 제공하면 하위 클래스를 만들 수 없다. (상속시 public/protected 생성자가 필요)
@@ -82,3 +107,9 @@ List<String> emptyList = Collections.emptyList();
 - instance 혹은 getInstance : 매개변수가 있다면, 같은 인스턴스를 반환하나 이를 보장하진 않음
 - create 혹은 newInstance : 매번 새로운 인스턴스 생성을 보장
 - getType 혹은 newType 혹은 type : Type은 해당 팩터리 메서드가 반환할 인스턴스 타입이다.
+
+---
+## ETC
+
+### 플라이웨이트 패턴
+: 자주사용되는 객체들을 캐싱해두고 사용하는것
