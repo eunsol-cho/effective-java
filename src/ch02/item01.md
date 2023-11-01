@@ -62,22 +62,28 @@ List<String> emptyList = Collections.emptyList();
 public class HelloServiceFactory {
 
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        
+        // 방법1.
         ServiceLoader<HelloService> loader = ServiceLoader.load(HelloService.class);
         Optional<HelloService> helloServiceOptional = loader.findFirst();
         helloServiceOptional.ifPresent(h -> {
-            System.out.println(h.hello()); // 사용시점에 클래스 존재 하지 않음
+            System.out.println(h.hello()); // 사용시점에 클래스 존재 하지 않음 - 어떤 임의의 구현체가 올지 아예 몰라. 인터페이스 기반으로만 코딩!
         });
-		/* 구현체를 가지는 서비스를 의존으로 가지고잇음 - like 우린 어떤 DB를 사용할지 모르지만, JDBC에 대한 의존가지고만 특정 DB에 종속되지 않는 어플리케이션을 만들수 있음
+        
+        
+        /* 구현체를 가지는 서비스를 의존으로 가지고잇음 - like 우린 어떤 DB를 사용할지 모르지만, JDBC에 대한 의존가지고만 특정 DB에 종속되지 않는 어플리케이션을 만들수 있음
          <dependency>
             <groupId>me.whiteship.hello</groupId>
             <artifactId>chinese-hello-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
          </dependency>
          * */
-
-		// 이거랑 다른점은?
-        HelloService helloService = new ChineseHelloService(); // 의존성이 생김!
+        
+        
+        // 방법2. 이거랑 다른점은?
+        HelloService helloService = new ChineseHelloService(); // 의존성이 생김! - import해야한다.
         System.out.println(helloService.hello());
+        
     }
 
 }
@@ -85,11 +91,35 @@ public class HelloServiceFactory {
 
 ## 정적 팩터리 메서드의 단점
 
-### 1. 정적 팩터리 메서드만 제공하면 하위 클래스를 만들 수 없다. (상속시 public/protected 생성자가 필요)
+### 1. 정적 팩터리 메서드만 제공하면 하위 클래스를 만들 수 없다. 
+- 상속시 public/protected 생성자가 필요
+- 정적 팩터리 메서드는 private 생성자를 가져야한다.
+- 물론 상속을 하지않고, deligation(멤버변수와 같이 다른 클래스로 감싸서 참조) 하여, 기존코드에 기능을 추가 할 수 있다.
+```java
+interface Printer {
+    void print(String message);
+}
+// 상속
+class RealPrinter implements Printer {
+    @Override
+    public void print(String message) {
+        System.out.println(message);
+    }
+}
+// deligation
+class PrinterDelegate {
+    private Printer printer = new RealPrinter();
+
+    void print(String message) {
+        printer.print(message); // Delegation: 위임한다.
+    }
+}
+```
 
 컬렉션 프레임워크의 유틸리티 구현 클래스들은 상속할 수 없다.
 
 ### 2. 정적 팩터리 메서드는 프로그래머가 찾기 어렵다.
+- 자바 docs만 해도 생성자는 한눈에 보기 쉽게 정리해서 보여주지만, 정적 팩터리 메서드는 한눈에 파악이 어렵다. (static method tavb)
 
 명명 방법
 - form : 매개변수를 하나 받아서 해당 타입의 인스턴스를 반환하는 형변환 메서드

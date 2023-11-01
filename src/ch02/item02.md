@@ -24,6 +24,11 @@
 ### 빌터 패턴(Builder pattern)
  : 빌더 객체를 통해 필요 매개변수만으로 객체를 만든다. - 위 두가지 방식의 장점만을 취함
 
+- 빌더는 생성할 클래스 안에 정적 맴버 클래스로 만들어 둔다.
+- 메서드 체이닝을 통해 가독성을 높힌다. (fluent API or method chaining)
+- 불변 객체 생성 가능
+- 각 매개변수에 따른 예외 처리도 가능 (아래 소스에서는 가독성을 위해 생략됨)
+
 <details>
 <summary> [code] </summary>
 <div markdown="1">
@@ -52,6 +57,7 @@ class NutritionFacts {
         }
     }
 	
+    // NutritionFacts 클래스는 불변이다.
 	public NutritionFacts (Builder builder) {
 		this.calories = builder.calories;
 		this.fat = builder.fat;
