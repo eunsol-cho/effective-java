@@ -16,7 +16,7 @@ public class ColorPoint extends Point {
             return false;
         }
         if (!(o instanceof ColorPoint)) {
-            return o.equals(this);
+            return o.equals(this); // 동일 레벨의 Point상속 클래스가 존재하면, 재귀 호출 때문에 stackoverflow 발생!
         }
         return super.equals(o) && ((ColorPoint) o).color == color;
     }

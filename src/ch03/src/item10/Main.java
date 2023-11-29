@@ -23,7 +23,7 @@ public class Main {
     private static void 리스코프_원칙_테스트() {
         ColorPoint point = new ColorPoint(1,  0, Color.BLUE);
         boolean result = onUnitCircle(point);
-        System.out.println("result = " + result);
+        System.out.println("result = " + result); // Point 클래스의 equals가 instanceof를 사용하면 true, getClass를 사용하면 false
     }
 
     private static final Set<Point> unitCircle = Set.of(
