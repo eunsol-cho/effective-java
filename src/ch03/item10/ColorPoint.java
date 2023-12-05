@@ -1,4 +1,4 @@
-package src.ch03.src.item10;
+package src.ch03.item10;
 
 import java.awt.*;
 
