@@ -1,4 +1,4 @@
-package src.ch04.item15;
+package ch04.src.item15;
 
 public class NonFinalFieldInPublicClass {
 

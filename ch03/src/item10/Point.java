@@ -1,4 +1,4 @@
-package src.ch03.item10;
+package ch03.src.item10;
 
 public class Point {
     private final int x;
